@@ -1,0 +1,97 @@
+@import "main";
+
+.right-panel {
+  height: 100%;
+  width: @right_panel_width;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  background: white;
+
+  box-shadow: rgba(0, 0, 0, .2) -3px 3px 10px;
+  z-index: 2;
+
+  .top-part {
+    border-bottom: solid 1px gainsboro;
+    position: absolute;
+    height: @top-panel_height;
+    width: 100%;
+    top: 0;
+    right: 0;
+    background: white;
+    box-sizing: border-box;
+    padding-top: 33px;
+
+    .order-list-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 17px;
+      padding-left: 15px;
+    }
+
+    .clear-order {
+      float: right;
+      margin-top: 5px;
+      cursor: pointer;
+      padding-right: 15px;
+      font-size: 14px;
+      line-height: 11px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, .5)
+    }
+
+    .order-count {
+      background: rgba(0, 0, 0, 0);
+      color: black;
+      margin-bottom: -3px;
+      font-size: 15px;
+    }
+
+  }
+
+  .main-part {
+    width: 100%;
+    height: 100%;
+
+    overflow-y: scroll;
+
+    background: #f0f0f0;
+
+    padding-top: @top-panel_height + 10px;
+    padding-bottom: @top-panel_height - 10px;
+
+    box-sizing: border-box;
+  }
+
+  .bottom-part {
+    border-top: solid 1px gainsboro;
+    height: @top-panel_height + 30px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: white;
+    padding: 5px;
+
+    .place-order-button {
+      padding: 10px;
+    }
+
+    .total-price-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 15px
+    }
+
+    .total-price {
+      font-weight: 700;
+      font-size: 20px;
+      float: right;
+      padding-right: 10px;
+      margin-bottom: 5px
+    }
+
+  }
+}

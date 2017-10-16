@@ -1,3 +1,64 @@
-@mainColor: blue;
+@mainColor: #ffb04e;
+@color_5: #ec890e;
 
 @import "pizza/pizza-card";
+@import "top-panel";
+@import "right-panel";
+@import "discount-panel";
+@import "badge-top";
+@import "left-panel";
+@import "footer";
+@import "pizza/pizza-order-card";
+
+@right_panel_width: 300px;
+@top-panel_height: 80px;
+@top_panel_color: rgba(45, 45, 48, 0.95);
+@dark_gray: #a9a9a9;
+
+body {
+  font-family: "Avenir Next", serif;
+  font-size: 0;
+  background: #fffde6;
+}
+
+.main-pizza {
+  margin-right: @right_panel_width;
+  margin-top: @top-panel_height + 20px;
+}
+
+.inner-container {
+  max-width: 1000px;
+  margin: auto;
+
+  padding: 10px;
+
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+  background-repeat: repeat-x;
+}
+
+@media (max-width: 700px) {
+  .top-panel {
+    .header-top-row {
+      .phone-number {
+        display: inline-block;
+        width: 100%;
+        font-size: 10px;
+        padding: 0
+      }
+    }
+    .sign-in-label, .sign-up-label {
+      float: right;
+      margin-top: 5px
+    }
+  }
+}
+

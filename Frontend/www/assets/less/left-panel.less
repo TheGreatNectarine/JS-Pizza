@@ -1,0 +1,58 @@
+@import "main";
+
+@color_1: #ec890e;
+@color_2: #fff;
+@background_color_1: #ec890e;
+
+.left-panel {
+  padding-left: 30px;
+  padding-right: @right_panel_width;
+  padding-top: @top-panel_height;
+  margin: auto;
+  max-width: 1354px;
+  font-size: 30px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 0;
+
+  .page-title {
+    margin-top: 30px;
+  }
+
+  .pizza-list {
+    margin-right: -15px;
+    margin-left: -15px;
+    display: table;
+    box-sizing: border-box;
+    content: " ";
+    .main-pizza {
+      margin: 40px 0 0;
+    }
+  }
+
+  .all-pizza-type-wrap {
+    font-size: 15px;
+    .all-pizza-type {
+      display: inline-block;
+      .li {
+        display: inline;
+      }
+      .active {
+        a {
+          background-color: @background_color_1;
+          color: @color_2;
+          &:hover {
+            background-color: @background_color_1;
+            color: @color_2;
+          }
+        }
+      }
+    }
+    .nav-pills {
+      a {
+        color: @color_1;
+      }
+    }
+  }
+}
+

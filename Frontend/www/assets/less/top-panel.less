@@ -1,0 +1,77 @@
+@import "main";
+
+.top-panel {
+  padding-right: @right_panel_width + 20px;
+  width: 100%;
+  height: @top-panel_height;
+  padding-left: 120px;
+  position: fixed;
+  background: @top_panel_color;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  margin-bottom: 20px;
+  z-index: 1;
+
+  .middle {
+    .upper-row {
+      width: 100%;
+      font-size: 12px;
+      line-height: 11px;
+      margin: 15px 0 10px 0;
+      border-bottom: 1px solid;
+      color: @dark_gray;
+      .upper-row-items {
+        display: block;
+      }
+      .phone-number {
+        font-size: 20px;
+        padding-right: 30px;
+        padding-bottom: 15px;
+        white-space: nowrap;
+
+      }
+      .work-days {
+        font-size: 12px;
+        padding-right: 30px;
+      }
+      .delivery {
+        font-size: 16px;
+        padding-right: 30px;
+      }
+    }
+
+    .sign-up-label {
+      margin-top: -18px;
+      color: #f0ad4e;
+      background: rgba(0, 0, 0, 0);
+      :focus {
+        outline: none;
+        background: @top_panel_color;
+      }
+    }
+
+    .sign-in-label {
+      margin-top: -18px;
+      color: #f0ad4e;
+      background: rgba(0, 0, 0, 0);
+      :focus {
+        outline: none;
+      }
+      :hover {
+        outline: none;
+      }
+
+    }
+
+    .header-down-row {
+      display: block;
+      padding-bottom: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+
+}
+
+
