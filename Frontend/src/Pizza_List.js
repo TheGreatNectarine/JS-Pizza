@@ -6,14 +6,14 @@ var pizza_info = [
     {
         id:1,
         icon:'assets/images/pizza_7.jpg',
-        title: "Імпреза",
-        type: 'М’ясна піца',
+        title: "impreza",
+        type: 'meat pizza',
         content: {
-            meat: ['балик', 'салямі'],
-            chicken: ['куриця'],
-            cheese: ['сир моцарелла', 'сир рокфорд'],
-            pineapple: ['ананаси'],
-            additional: ['томатна паста', 'петрушка']
+            meat: ['snood', 'salami'],
+            chicken: ['chicken'],
+            cheese: ['mozzarella', 'rockford'],
+            pineapple: ['pineapples'],
+            additional: ['tomato paste', 'parsley']
         },
         small_size:{
             weight: 370,
@@ -32,13 +32,13 @@ var pizza_info = [
     {
         id:2,
         icon:'assets/images/pizza_2.jpg',
-        title: "BBQ",
-        type: 'М’ясна піца',
+        title: "bbq",
+        type: 'meat pizza',
         content: {
-            meat: ['мисливські ковбаски', 'ковбаски папероні', 'шинка'],
-            cheese: ['сир домашній'],
-            mushroom: ['шампінйони'],
-            additional: ['петрушка', 'оливки']
+            meat: ['hunter\'s sausage', 'pepperoni', 'ham'],
+            cheese: ['gouda'],
+            mushroom: ['white mushroom'],
+            additional: ['parsley', 'olives']
         },
         small_size:{
             weight: 460,
@@ -55,13 +55,13 @@ var pizza_info = [
     {
         id:3,
         icon:'assets/images/pizza_1.jpg',
-        title: "Міксовий поло",
-        type: 'М’ясна піца',
+        title: "mixy polo",
+        type: 'meat pizzaа',
         content: {
-            meat: ['вітчина', 'куриця копчена'],
-            cheese: ['сир моцарелла'],
-            pineapple: ['ананаси'],
-            additional: ['кукурудза', 'петрушка', 'соус томатний']
+            meat: ['snood', 'smoked chicken'],
+            cheese: ['mozzarella'],
+            pineapple: ['pineapples'],
+            additional: ['corn', 'parsley', 'tomato sauce']
         },
         small_size:{
             weight: 430,
@@ -77,13 +77,13 @@ var pizza_info = [
     {
         id:4,
         icon:'assets/images/pizza_5.jpg',
-        title: "Сициліано",
-        type: 'М’ясна піца',
+        title: "sicilliano",
+        type: 'meat pizza',
         content: {
-            meat: ['вітчина', 'салямі'],
-            cheese: ['сир моцарелла'],
-            mushroom: ['шампінйони'],
-            additional: ['перець болгарський',  'соус томатний']
+            meat: ['snood', 'salami'],
+            cheese: ['mozzarella'],
+            mushroom: ['white mushrooms'],
+            additional: ['bell pepper',  'tomato sauce']
         },
         small_size:{
             weight: 450,
@@ -99,12 +99,12 @@ var pizza_info = [
     {
         id:17,
         icon:'assets/images/pizza_3.jpg',
-        title: "Маргарита",
-        type: 'Вега піца',
+        title: "margherita",
+        type: 'vega',
         content: {
-            cheese: ['сир моцарелла', 'сир домашній'],
-            tomato: ['помідори'],
-            additional: ['базилік', 'оливкова олія', 'соус томатний']
+            cheese: ['mozzarella', 'gouda'],
+            tomato: ['tomatoes'],
+            additional: ['basil', 'olive oil', 'tomato sauce']
         },
         small_size:{
             weight: 370,
@@ -115,14 +115,14 @@ var pizza_info = [
     {
         id:43,
         icon:'assets/images/pizza_6.jpg',
-        title: "Мікс смаків",
-        type: 'М’ясна піца',
+        title: "flavour mix",
+        type: 'meat pizza',
         content: {
-            meat: ['ковбаски'],
-            cheese: ['сир моцарелла'],
-            mushroom: ['шампінйони'],
-            pineapple: ['ананаси'],
-            additional: ['цибуля кримська', 'огірки квашені', 'соус гірчичний']
+            meat: ['hunter\'s sausages'],
+            cheese: ['mozzarella'],
+            mushroom: ['white mushrooms'],
+            pineapple: ['pineapples'],
+            additional: ['crimean onion', 'pickles', 'mustard']
         },
         small_size:{
             weight: 470,
@@ -138,12 +138,12 @@ var pizza_info = [
     {
         id:90,
         icon:'assets/images/pizza_8.jpg',
-        title: "Дольче Маре",
-        type: 'Морська піца',
+        title: "dolce mare",
+        type: 'seafood pizza',
         content: {
-            ocean: ['криветки тигрові', 'мідії', 'ікра червона', 'філе червоної риби'],
-            cheese: ['сир моцарелла'],
-            additional: ['оливкова олія', 'вершки']
+            ocean: ['tiger shrimps', 'mussels', 'red caviar', 'salmon fillet'],
+            cheese: ['mozzarella'],
+            additional: ['olive oil', 'cream']
         },
         big_size:{
             weight: 845,
@@ -154,12 +154,12 @@ var pizza_info = [
     {
         id:6,
         icon:'assets/images/pizza_4.jpg',
-        title: "Россо Густо",
-        type: 'Морська піца',
+        title: "rosso gusto",
+        type: 'seafood pizza',
         content: {
-            ocean: ['ікра червона', 'лосось копчений'],
-            cheese: ['сир моцарелла'],
-            additional: ['оливкова олія', 'вершки']
+            ocean: ['red caviar', 'smoked salmon'],
+            cheese: ['mozzarella'],
+            additional: ['olive oil', 'cream']
         },
         small_size:{
             weight: 400,
