@@ -21,7 +21,7 @@
         <span class="gram"><%= (sz === 'big' ? pizza.big_size.weight : pizza.small_size.weight) %></span>
     </div>
     <div class="price-box">
-        <span class="price"><%= pizza[size].price %> UAH</span>
+        <span class="price"><%= pizza[size].price * quantity %> UAH</span>
         <a class="minus btn btn-xs btn-danger btn-circle">
             <i class="glyphicon glyphicon-minus icon-white">
             </i>

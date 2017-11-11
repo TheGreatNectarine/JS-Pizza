@@ -56,7 +56,7 @@ var pizza_info = [
         id:3,
         icon:'assets/images/pizza_1.jpg',
         title: "mixy polo",
-        type: 'meat pizzaа',
+        type: 'meat pizza',
         content: {
             meat: ['snood', 'smoked chicken'],
             cheese: ['mozzarella'],

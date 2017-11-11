@@ -1,6 +1,8 @@
 /**
  * Created by chaika on 02.02.16.
  */
+var Storage = require('../LocalStorage');
+
 var Templates = require('../Templates');
 
 //Перелік розмірів піци
@@ -9,19 +11,13 @@ var PizzaSize = {
     Small: "small_size"
 };
 
-Array.prototype.contains = function (element) {
-    for (var i = 0; i < this.length; i++) {
-        if (this[i] === element)
-            return true;
-    }
-    return false;
-};
-
 //Змінна в якій зберігаються перелік піц в кошику
-var cart = [];
+var cart = Storage.get('cart');
+if (!cart)
+    cart = []
 
 //HTML едемент куди будуть додаватися піц
-var $cart = $("#cart");
+var $cart = $(".main-part");
 
 var order_count = cart.length;
 
@@ -33,7 +29,7 @@ function addToCart(pizza, size) {
     //Приклад реалізації, можна робити будь-яким іншим способом
     var is_new = true;
     cart.forEach(function (item) {
-        if (item['pizza'] === pizza && item['size'] === size) {
+        if (item.pizza.id === pizza.id && item.size === size) {
             is_new = false;
         }
     });
@@ -45,8 +41,8 @@ function addToCart(pizza, size) {
         });
     } else {
         cart.forEach(function (item) {
-            if (item['pizza'] === pizza && item['size'] === size) {
-                item['quantity']++;
+            if (item.pizza.id === pizza.id && item.size === size) {
+                item.quantity++;
             }
         });
     }
@@ -81,7 +77,12 @@ function updateCart() {
     //Тут можна наприклад показати оновлений кошик на екрані та зберегти вміт кошика в Local Storage
     order_count = cart.length;
     $(".order-count").html(order_count);
-
+    //TODO
+    if (cart.length === 0) {
+    $(".no-order-text").append("<div class=\"no-order-text\">empty</div>");
+    } else {
+        $(".no-order-text").remove();
+    }
     //Очищаємо старі піци в кошику
     $cart.html("");
 
@@ -128,6 +129,8 @@ function updateCart() {
 
     cart.forEach(showOnePizzaInCart);
     update_total_price(cart);
+
+    Storage.set('cart', cart);
 
 }
 
