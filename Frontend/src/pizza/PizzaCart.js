@@ -79,16 +79,33 @@ function updateCart() {
     $(".order-count").html(order_count);
     //TODO
     if (cart.length === 0) {
-    $(".no-order-text").append("<div class=\"no-order-text\">empty</div>");
+        $(".no-order-text").append("<div class=\"no-order-text\">empty</div>");
     } else {
         $(".no-order-text").remove();
     }
     //Очищаємо старі піци в кошику
     $cart.html("");
+    if (cart.length === 0) {
+        $("#place-order").prop("disabled", true);
+        $cart.html("<div class=\"attraction\">\n" +
+            "           what a time<br>to order some pizza" +
+            "      </div>");
+    } else {
+        $("#place-order").prop("disabled", false);
+    }
 
     //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
-        var html_code = Templates.PizzaCart_OneItem(cart_item);
+
+        var html_code = "";
+
+        if (window.location.href === "http://localhost:5050/#") {
+
+            html_code = Templates.PizzaCart_OneItem(cart_item);
+
+        } else if (window.location.href === "http://localhost:5050/order.html") {
+            html_code = Templates.PizzaCart_OneItem_Order(cart_item);
+        }
 
         var $node = $(html_code);
 

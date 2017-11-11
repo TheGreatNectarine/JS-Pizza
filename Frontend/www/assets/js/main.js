@@ -200,6 +200,9 @@ exports.PizzaMenu_OneItem = ejs.compile("<%\nfunction getIngredientsArray(pizza)
 
 exports.PizzaCart_OneItem = ejs.compile("<!--<div>-->\n<!--<%= pizza.title %> (<%= size %>)-->\n<!--<div>Ціна: <%= pizza[size].price %> грн.</div>-->\n<!--<div>-->\n<!--<button class=\"btn btn-danger minus\">-</button>-->\n<!--<span class=\"label label-default\"><%= quantity %></span>-->\n<!--<button class=\"btn btn-success plus\">+</button>-->\n<!--</div>-->\n<!--</div>-->\n\n<div class=\"order-one ng-scope\">\n    <img class=\"img-aside pizza-icon\" alt=\"Піца\" src=\"<%= pizza.icon %>\">\n    <p class=\"bold mb10 ng-scope\">\n        <% var sz = size ==='big_size' ? 'big' : 'small' %>\n        <span class=\"order-title\"><%= pizza.title %> (<%= sz%>)</span>\n    </p>\n    <div class=\"order-text\">\n        <img class=\"diagonal-image\" src=\"assets/images/size-icon.svg\">\n        <span class=\"diagonal\"><%= (sz === 'big' ? pizza.big_size.size : pizza.small_size.size) %></span>\n        <img class=\"gram-image\" src=\"assets/images/weight.svg\">\n        <span class=\"gram\"><%= (sz === 'big' ? pizza.big_size.weight : pizza.small_size.weight) %></span>\n    </div>\n    <div class=\"price-box\">\n        <span class=\"price\"><%= pizza[size].price * quantity %> UAH</span>\n        <a class=\"minus btn btn-xs btn-danger btn-circle\">\n            <i class=\"glyphicon glyphicon-minus icon-white\">\n            </i>\n        </a>\n        <span class=\"label order-pizza-count\" style=\"color:black;\"><%= quantity %></span>\n        <a class=\"plus btn btn-xs btn-success btn-circle\">\n            <i class=\"glyphicon glyphicon-plus icon-white\">\n\n            </i>\n        </a>\n        <a class=\"count-clear btn btn-xs btn-default btn-circle\">\n            <i class=\"glyphicon glyphicon-remove icon-white\">\n\n            </i>\n        </a>\n    </div>\n</div>");
 
+exports.PizzaCart_OneItem_Order = ejs.compile("<!--<div>-->\n<!--<%= pizza.title %> (<%= size %>)-->\n<!--<div>Ціна: <%= pizza[size].price %> грн.</div>-->\n<!--<div>-->\n<!--<button class=\"btn btn-danger minus\">-</button>-->\n<!--<span class=\"label label-default\"><%= quantity %></span>-->\n<!--<button class=\"btn btn-success plus\">+</button>-->\n<!--</div>-->\n<!--</div>-->\n\n<div class=\"order-one ng-scope\">\n    <img class=\"img-aside pizza-icon\" alt=\"Піца\" src=\"<%= pizza.icon %>\">\n    <p class=\"bold mb10 ng-scope\">\n        <% var sz = size ==='big_size' ? 'big' : 'small' %>\n        <span class=\"order-title\"><%= pizza.title %> (<%= sz%>)</span>\n    </p>\n    <div class=\"order-text\">\n        <img class=\"diagonal-image\" src=\"assets/images/size-icon.svg\">\n        <span class=\"diagonal\"><%= (sz === 'big' ? pizza.big_size.size : pizza.small_size.size) %></span>\n        <img class=\"gram-image\" src=\"assets/images/weight.svg\">\n        <span class=\"gram\"><%= (sz === 'big' ? pizza.big_size.weight : pizza.small_size.weight) %></span>\n    </div>\n    <div class=\"price-box\">\n        <span class=\"price\"><%= pizza[size].price * quantity %> UAH</span>\n        <span class=\"label order-pizza-count\" style=\"color:black;\"><%= quantity %> items</span>\n    </div>\n</div>");
+
+
 },{"ejs":9}],4:[function(require,module,exports){
 /**
  * Created by chaika on 25.01.16.
@@ -298,16 +301,33 @@ function updateCart() {
     $(".order-count").html(order_count);
     //TODO
     if (cart.length === 0) {
-    $(".no-order-text").append("<div class=\"no-order-text\">empty</div>");
+        $(".no-order-text").append("<div class=\"no-order-text\">empty</div>");
     } else {
         $(".no-order-text").remove();
     }
     //Очищаємо старі піци в кошику
     $cart.html("");
+    if (cart.length === 0) {
+        $("#place-order").prop("disabled", true);
+        $cart.html("<div class=\"attraction\">\n" +
+            "           what a time<br>to order some pizza" +
+            "      </div>");
+    } else {
+        $("#place-order").prop("disabled", false);
+    }
 
     //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
-        var html_code = Templates.PizzaCart_OneItem(cart_item);
+
+        var html_code = "";
+
+        if (window.location.href === "http://localhost:5050/#") {
+
+            html_code = Templates.PizzaCart_OneItem(cart_item);
+
+        } else if (window.location.href === "http://localhost:5050/order.html") {
+            html_code = Templates.PizzaCart_OneItem_Order(cart_item);
+        }
 
         var $node = $(html_code);
 
@@ -1937,6 +1957,7 @@ module.exports={
     "fetchSpec": "^2.4.1"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
