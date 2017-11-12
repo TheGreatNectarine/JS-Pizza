@@ -17,7 +17,7 @@ if (!cart)
     cart = []
 
 //HTML едемент куди будуть додаватися піц
-var $cart = $(".main-part");
+var $cart = $("#cart");
 
 var order_count = cart.length;
 

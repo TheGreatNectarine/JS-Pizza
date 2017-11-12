@@ -79,15 +79,11 @@ $('.go-on-button').click(function () {
             address: address
         };
         api.createOrder(order, function () {
-            // if (order) {
-                console.log("server received order: \n");
-                console.log("recipient name: " + order.name + "\nnumber: " + order.phone_number + "\naddress: " + order.address);
-                order.cart.forEach(function (pizza) {
-                    console.log('pizza: ' + pizza.pizza.title + '\tsize: ' + pizza.size + '\tquantity: ' + pizza.quantity);
-                });
-            // } else {
-            //     console.log('ERROR');
-            // }
+            console.log("server received order: \n");
+            console.log("recipient name: " + order.name + "\nnumber: " + order.phone_number + "\naddress: " + order.address);
+            order.cart.forEach(function (pizza) {
+                console.log('pizza: ' + pizza.pizza.title + '\tsize: ' + pizza.size + '\tquantity: ' + pizza.quantity);
+            });
         });
     } else {
         return this;
