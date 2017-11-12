@@ -2,6 +2,42 @@ var api = require('../API');
 var PizzaCart = require('./PizzaCart');
 var cart = PizzaCart.cart;
 
+$('#input_name').on('input', function () {
+    var valid_name = validate_name($('#input_name').val());
+    if (!valid_name) {
+        $('.input-name').addClass('has-error');
+        $('.name-help-block').show(0);
+    } else {
+        $('.input-name').removeClass('has-error');
+        $('.input-name').addClass('has-success');
+        $('.name-help-block').hide(0);
+    }
+});
+
+$('#input_phone').on('input', function () {
+    var valid_number = validate_number($('#input_phone').val());
+    if (!valid_number) {
+        $('.input-phone').addClass('has-error');
+        $('.phone-help-block').show(0);
+    } else {
+        $('.input-phone').removeClass('has-error');
+        $('.input-phone').addClass('has-success');
+        $('.phone-help-block').hide(0);
+    }
+});
+
+$('#input_address').on('input', function () {
+    var valid_address = validate_address($('#input_address').val());
+    if (!valid_address) {
+        $('.input-address').addClass('has-error');
+        $('.address-help-block').show(0);
+    } else {
+        $('.input-address').removeClass('has-error');
+        $('.input-address').addClass('has-success');
+        $('.address-help-block').hide(0);
+    }
+});
+
 $('.go-on-button').click(function () {
 
     var name = $('#input_name').val();
@@ -10,30 +46,31 @@ $('.go-on-button').click(function () {
     var valid_name = validate_name(name);
     var valid_number = validate_number(number);
     var valid_address = validate_address(address);
-    if (!valid_address) {
-        $('#input_address').addClass('is-invalid');
-        $('.address-help-block').show(0);
-    } else {
-        $('#input_address').removeClass('is-invalid');
-        $('.address-help-block').hide(0);
-    }
-
+    var valid = valid_number && valid_name && valid_address;
     if (!valid_name) {
-        $('#input_name').addClass('is-invalid');
+        $('.input-name').addClass('has-error');
         $('.name-help-block').show(0);
     } else {
-        $('#input_name').removeClass('is-invalid');
+        $('.input-name').removeClass('has-error');
+        $('.input-name').addClass('has-success');
         $('.name-help-block').hide(0);
     }
-
     if (!valid_number) {
-        $('#input_phone').addClass('is-invalid');
+        $('.input-phone').addClass('has-error');
         $('.phone-help-block').show(0);
     } else {
-        $('#input_phone').removeClass('is-invalid');
+        $('.input-phone').removeClass('has-error');
+        $('.input-phone').addClass('has-success');
         $('.phone-help-block').hide(0);
     }
-    var valid = valid_number && valid_name && valid_address;
+    if (!valid_address) {
+        $('.input-address').addClass('has-error');
+        $('.address-help-block').show(0);
+    } else {
+        $('.input-address').removeClass('has-error');
+        $('.input-address').addClass('has-success');
+        $('.address-help-block').hide(0);
+    }
     if (valid) {
         var order = {
             cart: cart,
@@ -42,8 +79,16 @@ $('.go-on-button').click(function () {
             address: address
         };
         api.createOrder(order, function () {
-            console.log(order);
-        })
+            // if (order) {
+                console.log("server received order: \n");
+                console.log("recipient name: " + order.name + "\nnumber: " + order.phone_number + "\naddress: " + order.address);
+                order.cart.forEach(function (pizza) {
+                    console.log('pizza: ' + pizza.pizza.title + '\tsize: ' + pizza.size + '\tquantity: ' + pizza.quantity);
+                });
+            // } else {
+            //     console.log('ERROR');
+            // }
+        });
     } else {
         return this;
     }
@@ -57,6 +102,8 @@ validate_name = function (name) {
 validate_number = function (number) {
     if (number.startsWith('0')) {
         number = '+38'.concat(number);
+    } else if (!number.startsWith('+') && !number.startsWith('0')) {
+        number = '+'.concat(number);
     }
     var regex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
     return regex.test(number);
