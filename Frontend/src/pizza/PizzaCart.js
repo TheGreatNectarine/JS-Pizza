@@ -176,6 +176,8 @@ function total_price(cart) {
 exports.removeFromCart = removeFromCart;
 exports.addToCart = addToCart;
 
+exports.cart = cart;
+
 exports.getPizzaInCart = getPizzasInCart;
 exports.initialiseCart = initialiseCart;
 
