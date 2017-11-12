@@ -270,6 +270,8 @@ var Storage = require('../LocalStorage');
 
 var Templates = require('../Templates');
 
+var API = require('../API');
+
 //Перелік розмірів піци
 var PizzaSize = {
     Big: "big_size",
@@ -438,8 +440,24 @@ function total_price(cart) {
     return res;
 }
 
+function createOrder(callback) {
+    API.createOrder({
+        name: $('#input_name').val(),
+        phone: $('#input_phone').val(),
+        address: $('#input_address').val(),
+        order: cart
+    }, function (err, result) {
+        if (err) {
+            return callback(err)
+        } else {
+            callback(null, result);
+        }
+    });
+}
 exports.removeFromCart = removeFromCart;
 exports.addToCart = addToCart;
+
+exports.createOrder = createOrder;
 
 exports.cart = cart;
 
@@ -447,7 +465,7 @@ exports.getPizzaInCart = getPizzasInCart;
 exports.initialiseCart = initialiseCart;
 
 exports.PizzaSize = PizzaSize;
-},{"../LocalStorage":2,"../Templates":4}],7:[function(require,module,exports){
+},{"../API":1,"../LocalStorage":2,"../Templates":4}],7:[function(require,module,exports){
 /**
  * Created by chaika on 02.02.16.
  */
@@ -640,13 +658,18 @@ $('.go-on-button').click(function () {
             phone_number: number,
             address: address
         };
-        api.createOrder(order, function () {
-            console.log("server received order: \n");
-            console.log("recipient name: " + order.name + "\nnumber: " + order.phone_number + "\naddress: " + order.address);
-            order.cart.forEach(function (pizza) {
-                console.log('pizza: ' + pizza.pizza.title + '\tsize: ' + pizza.size + '\tquantity: ' + pizza.quantity);
-            });
-        });
+        PizzaCart.createOrder(function (err, data) {
+            if (err) {
+
+            }
+        }, order);
+        // api.createOrder(order, function () {
+        //     // console.log("server received order: \n");
+        //     // console.log("recipient name: " + order.name + "\nnumber: " + order.phone_number + "\naddress: " + order.address);
+        //     // order.cart.forEach(function (pizza) {
+        //     //     console.log('pizza: ' + pizza.pizza.title + '\tsize: ' + pizza.size + '\tquantity: ' + pizza.quantity);
+        //     // });
+        // });
     } else {
         return this;
     }

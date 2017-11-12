@@ -78,13 +78,18 @@ $('.go-on-button').click(function () {
             phone_number: number,
             address: address
         };
-        api.createOrder(order, function () {
-            console.log("server received order: \n");
-            console.log("recipient name: " + order.name + "\nnumber: " + order.phone_number + "\naddress: " + order.address);
-            order.cart.forEach(function (pizza) {
-                console.log('pizza: ' + pizza.pizza.title + '\tsize: ' + pizza.size + '\tquantity: ' + pizza.quantity);
-            });
-        });
+        PizzaCart.createOrder(function (err, data) {
+            if (err) {
+
+            }
+        }, order);
+        // api.createOrder(order, function () {
+        //     // console.log("server received order: \n");
+        //     // console.log("recipient name: " + order.name + "\nnumber: " + order.phone_number + "\naddress: " + order.address);
+        //     // order.cart.forEach(function (pizza) {
+        //     //     console.log('pizza: ' + pizza.pizza.title + '\tsize: ' + pizza.size + '\tquantity: ' + pizza.quantity);
+        //     // });
+        // });
     } else {
         return this;
     }

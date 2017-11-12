@@ -5,6 +5,8 @@ var Storage = require('../LocalStorage');
 
 var Templates = require('../Templates');
 
+var API = require('../API');
+
 //Перелік розмірів піци
 var PizzaSize = {
     Big: "big_size",
@@ -173,8 +175,24 @@ function total_price(cart) {
     return res;
 }
 
+function createOrder(callback) {
+    API.createOrder({
+        name: $('#input_name').val(),
+        phone: $('#input_phone').val(),
+        address: $('#input_address').val(),
+        order: cart
+    }, function (err, result) {
+        if (err) {
+            return callback(err)
+        } else {
+            callback(null, result);
+        }
+    });
+}
 exports.removeFromCart = removeFromCart;
 exports.addToCart = addToCart;
+
+exports.createOrder = createOrder;
 
 exports.cart = cart;
 
