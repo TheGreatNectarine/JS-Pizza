@@ -19,7 +19,7 @@ if (!cart)
     cart = [];
 
 //HTML едемент куди будуть додаватися піц
-var $cart = $(".cart");
+var $cart = $("#cart");
 
 var order_count = cart.length;
 
@@ -101,7 +101,8 @@ function updateCart() {
 
         var html_code = "";
 
-        if (window.location.href === "http://localhost:5050/#") {
+        if (window.location.href === "http://localhost:5050/#" ||
+            window.location.href === "http://localhost:5050") {
 
             html_code = Templates.PizzaCart_OneItem(cart_item);
 
@@ -190,6 +191,7 @@ function createOrder(callback) {
         }
     });
 }
+
 exports.removeFromCart = removeFromCart;
 exports.addToCart = addToCart;
 
