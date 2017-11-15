@@ -16,10 +16,10 @@ var PizzaSize = {
 //Змінна в якій зберігаються перелік піц в кошику
 var cart = Storage.get('cart');
 if (!cart)
-    cart = []
+    cart = [];
 
 //HTML едемент куди будуть додаватися піц
-var $cart = $("#cart");
+var $cart = $(".cart");
 
 var order_count = cart.length;
 
@@ -143,6 +143,7 @@ function updateCart() {
         });
 
         $cart.append($node);
+
     }
 
 
