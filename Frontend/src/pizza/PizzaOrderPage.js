@@ -1,4 +1,4 @@
-var api = require('../SERVER_API');
+var f_api = require('../FRONT_API');
 var PizzaCart = require('./PizzaCart');
 var cart = PizzaCart.cart;
 var crypto = require('crypto');
@@ -104,11 +104,24 @@ function init_order_page() {
                 phone_number: number,
                 address: address
             };
-            PizzaCart.createOrder(function (err, data) {
-                if (err) {
-
+            f_api.createOrder(order, function (err, data) {
+                if (!err) {
+                    LiqPayCheckout.init({
+                        data: order,
+                        signature: data.signature,
+                        embedTo: "#liqpay",
+                        mode: "popup"	//	embed	||	popup
+                    }).on("liqpay.callback", function (data) {
+                        console.log(data.status);
+                        console.log(data);
+                    }).on("liqpay.ready", function (data) {
+//	ready
+                    }).on("liqpay.close", function (data) {
+//	close
+                    });
                 }
-            }, order);
+            });
+
         } else {
             return this;
         }
@@ -261,3 +274,5 @@ function sha1(string) {
 exports.initialize_maps = initialize;
 exports.init_order_page = init_order_page;
 exports.init_map_vars = init_map_vars;
+exports.base64 = base64;
+exports.sha1 = sha1;

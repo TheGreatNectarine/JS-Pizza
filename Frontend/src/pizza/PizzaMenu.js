@@ -6,7 +6,7 @@ var PizzaCart = require('./PizzaCart');
 // var API = require('../API');
 // var Pizza_List = {};
 var Pizza_List = [];
-var server_api = require("../SERVER_API");
+var server_api = require("../FRONT_API");
 servar_api = server_api.getPizzaList(function (err, pizza_list) {
     if (!err && pizza_list) {
         Pizza_List = pizza_list;

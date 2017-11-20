@@ -5,7 +5,7 @@ var Storage = require('../LocalStorage');
 
 var Templates = require('../Templates');
 
-var API = require('../SERVER_API');
+var API = require('../FRONT_API');
 
 //Перелік розмірів піци
 var PizzaSize = {
@@ -46,7 +46,7 @@ function addToCart(pizza, size) {
             size: size,
             quantity: 1,
             price: pizza[size].price,
-            editable: !window.location.href.contains("order")
+            editable: !window.location.href.contains("order_description")
         });
     } else {
         cart.forEach(function (item) {
@@ -86,22 +86,22 @@ function updateCart() {
     //Функція викликається при зміні вмісту кошика
     //Тут можна наприклад показати оновлений кошик на екрані та зберегти вміт кошика в Local Storage
     order_count = cart.length;
-    $(".order-count").html(order_count);
+    $(".order_description-count").html(order_count);
     //TODO
     if (cart.length === 0) {
-        $(".no-order-text").append("<div class=\"no-order-text\">empty</div>");
+        $(".no-order_description-text").append("<div class=\"no-order_description-text\">empty</div>");
     } else {
-        $(".no-order-text").remove();
+        $(".no-order_description-text").remove();
     }
     //Очищаємо старі піци в кошику
     $cart.html("");
     if (cart.length === 0) {
-        $("#place-order").prop("disabled", true);
+        $("#place-order_description").prop("disabled", true);
         $cart.html("<div class=\"attraction\">\n" +
-            "           what a time<br>to order some pizza" +
+            "           what a time<br>to order_description some pizza" +
             "      </div>");
     } else {
-        $("#place-order").prop("disabled", false);
+        $("#place-order_description").prop("disabled", false);
     }
 
     //Онволення однієї піци
@@ -141,7 +141,7 @@ function updateCart() {
             removeFromCart(cart_item);
         });
 
-        $(".clear-order").click(function () {
+        $(".clear-order_description").click(function () {
             cart = [];
             updateCart();
         });
@@ -179,20 +179,20 @@ function total_price(cart) {
     return res;
 }
 
-function createOrder(callback) {
-    API.createOrder({
-        name: $('#input_name').val(),
-        phone: $('#input_phone').val(),
-        address: $('#input_address').val(),
-        order: cart
-    }, function (err, result) {
-        if (err) {
-            return callback(err)
-        } else {
-            callback(null, result);
-        }
-    });
-}
+// function createOrder(callback) {
+//     API.createOrder({
+//         name: $('#input_name').val(),
+//         phone: $('#input_phone').val(),
+//         address: $('#input_address').val(),
+//         order: cart
+//     }, function (err, result) {
+//         if (err) {
+//             return callback(err)
+//         } else {
+//             callback(null, result);
+//         }
+//     });
+// }
 
 exports.removeFromCart = removeFromCart;
 exports.addToCart = addToCart;
