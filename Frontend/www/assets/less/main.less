@@ -16,12 +16,22 @@
 @top_panel_color: rgba(45, 45, 48, 0.95);
 @dark_gray: #a9a9a9;
 @border_left_color_1: #ec890e;
-
+@footer_height : 111px;
 
 body {
   font-family: "Avenir Next", serif;
   font-size: 0;
   background: #fffde6;
+  position: relative;
+  padding-bottom: @footer_height + 10px;
+  min-height: 100vh;
+}
+
+#googleMap {
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+  width: 100%;
 }
 
 .main-pizza {

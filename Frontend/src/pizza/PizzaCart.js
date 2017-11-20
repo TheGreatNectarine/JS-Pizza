@@ -5,7 +5,7 @@ var Storage = require('../LocalStorage');
 
 var Templates = require('../Templates');
 
-var API = require('../API');
+var API = require('../SERVER_API');
 
 //Перелік розмірів піци
 var PizzaSize = {
@@ -25,6 +25,10 @@ var order_count = cart.length;
 
 // order_count++; //to make it integer
 
+String.prototype.contains = function (substring) {
+    return this.toLowerCase().indexOf(substring.toLowerCase()) !== -1;
+};
+
 function addToCart(pizza, size) {
     //Додавання однієї піци в кошик покупок
 
@@ -38,13 +42,17 @@ function addToCart(pizza, size) {
     if (is_new) {
         cart.push({
             pizza: pizza,
+            title: pizza.title,
             size: size,
-            quantity: 1
+            quantity: 1,
+            price: pizza[size].price,
+            editable: !window.location.href.contains("order")
         });
     } else {
         cart.forEach(function (item) {
             if (item.pizza.id === pizza.id && item.size === size) {
                 item.quantity++;
+                item.price = pizza[size].price * item.quantity;
             }
         });
     }
@@ -99,16 +107,11 @@ function updateCart() {
     //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
 
-        var html_code = "";
+        cart_item.editable = window.location.href.contains("#");
 
-        if (window.location.href === "http://localhost:5050/#" ||
-            window.location.href === "http://localhost:5050") {
+        var html_code;
 
-            html_code = Templates.PizzaCart_OneItem(cart_item);
-
-        } else if (window.location.href === "http://localhost:5050/order.html") {
-            html_code = Templates.PizzaCart_OneItem_Order(cart_item);
-        }
+        html_code = Templates.PizzaCart_OneItem(cart_item);
 
         var $node = $(html_code);
 
@@ -173,7 +176,6 @@ function total_price(cart) {
     for (var i = 0; i < cart.length; i++) {
         res += cart[i].pizza[cart[i].size].price * cart[i].quantity;
     }
-    console.log(res);
     return res;
 }
 

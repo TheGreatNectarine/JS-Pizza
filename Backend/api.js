@@ -9,18 +9,26 @@ exports.getPizzaList = function (req, res) {
 
 exports.createOrder = function (req, res) {
     var order_info = req.body;
-    console.log("Creating Order", order_info);
 
-    var cart = {};
+
+    var str_order = '';
+    var sum = 0;
     order_info.order.forEach(function (e) {
-        cart[e] = e.title;
+        var str = e.quantity + 'x ' + e.title + '[' + e.size + '];        ';
+        str_order += str;
+        sum += e.price
     });
+    str_order += 'Total: ' + sum + ' UAH ';
 
-    res.send({
+    var order = {
         name: order_info.name,
         phone: order_info.phone,
         address: order_info.address,
-        order: cart,
+        order: str_order,
         success: true
-    });
+    };
+
+    console.log("Creating Order", order);
+
+    res.send(order);
 };

@@ -2,7 +2,7 @@
  * Created by chaika on 25.01.16.
  */
 
-$(function(){
+$(function () {
     //This code will execute when the page is ready
     var PizzaMenu = require('./pizza/PizzaMenu');
     var PizzaCart = require('./pizza/PizzaCart');
@@ -11,6 +11,11 @@ $(function(){
 
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();
+    if (window.location.href.contains('order')) {
+        PizzaOrderPage.init_map_vars();
+        PizzaOrderPage.initialize_maps();
+        PizzaOrderPage.init_order_page();
+    }
 
 
 });
