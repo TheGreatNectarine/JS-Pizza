@@ -98,30 +98,7 @@ function init_order_page() {
             $('.address-help-block').hide(0);
         }
         if (valid) {
-            var order = {
-                cart: cart,
-                name: name,
-                phone_number: number,
-                address: address
-            };
-            f_api.createOrder(order, function (err, data) {
-                if (!err) {
-                    LiqPayCheckout.init({
-                        data: order,
-                        signature: data.signature,
-                        embedTo: "#liqpay",
-                        mode: "popup"	//	embed	||	popup
-                    }).on("liqpay.callback", function (data) {
-                        console.log(data.status);
-                        console.log(data);
-                    }).on("liqpay.ready", function (data) {
-//	ready
-                    }).on("liqpay.close", function (data) {
-//	close
-                    });
-                }
-            });
-
+            init_LiqPay();
         } else {
             return this;
         }
@@ -174,6 +151,46 @@ function init_map_vars() {
         map: map,
         suppressMarkers: true
     });
+}
+
+function init_LiqPay() {
+    var str_order = '';
+    var sum = require("./PizzaCart").cart_total();
+
+    str_order += 'Name: ' + $('#input_name').val() + '\n';
+    str_order += 'Phone: ' + $('#input_phone').val() + '\n';
+    str_order += 'Address: ' + $('#input_address').val() + '\n';
+
+    require("./PizzaCart").getPizzaInCart().forEach(function (t) {
+        str_order += "- " + t.quantity + " pcs. [" + (t.size === 'small_size' ? 'small' : 'big') + '] '
+            + t.title + ";\n";
+    });
+    str_order += "\nTotal: " + sum;
+    var order_info = {
+        amount: sum,
+        description: str_order
+    };
+
+    require("../FRONT_API").createOrder(order_info, function (err, data) {
+        if (!err) {
+            LiqPayCheckout.init({
+                data: data.data,
+                signature: data.signature,
+                embedTo: "#liqpay",
+                mode: "popup"  //  embed  ||  popup
+            }).on("liqpay.callback", function (data) {
+                console.log(data.status);
+                console.log(data);
+            }).on("liqpay.ready", function (data) {
+                //  ready
+            }).on("liqpay.close", function (data) {
+                //  close
+            });
+        } else {
+
+        }
+    })
+
 }
 
 var html_element;
@@ -260,19 +277,7 @@ function calculateRoute(renderer, A_latlng, B_latlng, callback) {
     });
 }
 
-function base64(str) {
-    return new Buffer(str).toString('base64');
-}
-
-
-function sha1(string) {
-    var sha1 = crypto.createHash('sha1');
-    sha1.update(string);
-    return sha1.digest('base64');
-}
-
 exports.initialize_maps = initialize;
 exports.init_order_page = init_order_page;
 exports.init_map_vars = init_map_vars;
-exports.base64 = base64;
-exports.sha1 = sha1;
+exports.init_lp = init_LiqPay;

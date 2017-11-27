@@ -36,5 +36,5 @@ exports.getPizzaList = function(callback) {
 };
 
 exports.createOrder = function(order_info, callback) {
-    backendPost("/api/create-order_description/", order_info, callback);
+    backendPost("/api/create-order/", order_info, callback);
 };

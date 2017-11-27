@@ -37,7 +37,7 @@ exports.getPizzaList = function(callback) {
 };
 
 exports.createOrder = function(order_info, callback) {
-    backendPost("/api/create-order_description/", order_info, callback);
+    backendPost("/api/create-order/", order_info, callback);
 };
 
 },{}],2:[function(require,module,exports){
@@ -259,7 +259,7 @@ $(function () {
 
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();
-    if (window.location.href.contains('order_description')) {
+    if (window.location.href.contains('order')) {
         PizzaOrderPage.init_map_vars();
         PizzaOrderPage.initialize_maps();
         PizzaOrderPage.init_order_page();
@@ -316,7 +316,7 @@ function addToCart(pizza, size) {
             size: size,
             quantity: 1,
             price: pizza[size].price,
-            editable: !window.location.href.contains("order_description")
+            editable: !window.location.href.contains("order")
         });
     } else {
         cart.forEach(function (item) {
@@ -356,22 +356,22 @@ function updateCart() {
     //Функція викликається при зміні вмісту кошика
     //Тут можна наприклад показати оновлений кошик на екрані та зберегти вміт кошика в Local Storage
     order_count = cart.length;
-    $(".order_description-count").html(order_count);
+    $(".order-count").html(order_count);
     //TODO
     if (cart.length === 0) {
-        $(".no-order_description-text").append("<div class=\"no-order_description-text\">empty</div>");
+        $(".no-order-text").append("<div class=\"no-order-text\">empty</div>");
     } else {
-        $(".no-order_description-text").remove();
+        $(".no-order-text").remove();
     }
     //Очищаємо старі піци в кошику
     $cart.html("");
     if (cart.length === 0) {
-        $("#place-order_description").prop("disabled", true);
+        $("#place-order").prop("disabled", true);
         $cart.html("<div class=\"attraction\">\n" +
-            "           what a time<br>to order_description some pizza" +
+            "           what a time<br>to order some pizza" +
             "      </div>");
     } else {
-        $("#place-order_description").prop("disabled", false);
+        $("#place-order").prop("disabled", false);
     }
 
     //Онволення однієї піци
@@ -411,7 +411,7 @@ function updateCart() {
             removeFromCart(cart_item);
         });
 
-        $(".clear-order_description").click(function () {
+        $(".clear-order").click(function () {
             cart = [];
             updateCart();
         });
@@ -441,28 +441,31 @@ function update_total_price(cart) {
     $(".total-price-title").html(total_price(cart) === 0 ? '' : 'total price');
 }
 
-function total_price(cart) {
+function total_price() {
     var res = 0;
-    for (var i = 0; i < cart.length; i++) {
-        res += cart[i].pizza[cart[i].size].price * cart[i].quantity;
-    }
+    cart.forEach(function (t) {
+        res += t.price
+    });
     return res;
 }
 
-// function createOrder(callback) {
-//     API.createOrder({
-//         name: $('#input_name').val(),
-//         phone: $('#input_phone').val(),
-//         address: $('#input_address').val(),
-//         order: cart
-//     }, function (err, result) {
-//         if (err) {
-//             return callback(err)
-//         } else {
-//             callback(null, result);
-//         }
-//     });
-// }
+function createOrder(callback) {
+    API.createOrder({
+        name: $('#input_name').val(),
+        phone: $('#input_phone').val(),
+        address: $('#input_address').val(),
+        order: cart
+    }, function (err, result) {
+        if (err) {
+            return callback(err)
+        } else {
+            callback(null, result);
+        }
+    });
+}
+
+
+exports.cart_total = total_price;
 
 exports.removeFromCart = removeFromCart;
 exports.addToCart = addToCart;
@@ -596,7 +599,6 @@ function initialiseMenu() {
 exports.filterPizza = filterPizza;
 exports.initialiseMenu = initialiseMenu;
 },{"../FRONT_API":1,"../Templates":4,"./PizzaCart":6}],8:[function(require,module,exports){
-(function (Buffer){
 var f_api = require('../FRONT_API');
 var PizzaCart = require('./PizzaCart');
 var cart = PizzaCart.cart;
@@ -697,30 +699,7 @@ function init_order_page() {
             $('.address-help-block').hide(0);
         }
         if (valid) {
-            var order = {
-                cart: cart,
-                name: name,
-                phone_number: number,
-                address: address
-            };
-            f_api.createOrder(order, function (err, data) {
-                if (!err) {
-                    LiqPayCheckout.init({
-                        data: order,
-                        signature: data.signature,
-                        embedTo: "#liqpay",
-                        mode: "popup"	//	embed	||	popup
-                    }).on("liqpay.callback", function (data) {
-                        console.log(data.status);
-                        console.log(data);
-                    }).on("liqpay.ready", function (data) {
-//	ready
-                    }).on("liqpay.close", function (data) {
-//	close
-                    });
-                }
-            });
-
+            init_LiqPay();
         } else {
             return this;
         }
@@ -773,6 +752,46 @@ function init_map_vars() {
         map: map,
         suppressMarkers: true
     });
+}
+
+function init_LiqPay() {
+    var str_order = '';
+    var sum = require("./PizzaCart").cart_total();
+
+    str_order += 'Name: ' + $('#input_name').val() + '\n';
+    str_order += 'Phone: ' + $('#input_phone').val() + '\n';
+    str_order += 'Address: ' + $('#input_address').val() + '\n';
+
+    require("./PizzaCart").getPizzaInCart().forEach(function (t) {
+        str_order += "- " + t.quantity + " pcs. [" + (t.size === 'small_size' ? 'small' : 'big') + '] '
+            + t.title + ";\n";
+    });
+    str_order += "\nTotal: " + sum;
+    var order_info = {
+        amount: sum,
+        description: str_order
+    };
+
+    require("../FRONT_API").createOrder(order_info, function (err, data) {
+        if (!err) {
+            LiqPayCheckout.init({
+                data: data.data,
+                signature: data.signature,
+                embedTo: "#liqpay",
+                mode: "popup"  //  embed  ||  popup
+            }).on("liqpay.callback", function (data) {
+                console.log(data.status);
+                console.log(data);
+            }).on("liqpay.ready", function (data) {
+                //  ready
+            }).on("liqpay.close", function (data) {
+                //  close
+            });
+        } else {
+
+        }
+    })
+
 }
 
 var html_element;
@@ -859,24 +878,11 @@ function calculateRoute(renderer, A_latlng, B_latlng, callback) {
     });
 }
 
-function base64(str) {
-    return new Buffer(str).toString('base64');
-}
-
-
-function sha1(string) {
-    var sha1 = crypto.createHash('sha1');
-    sha1.update(string);
-    return sha1.digest('base64');
-}
-
 exports.initialize_maps = initialize;
 exports.init_order_page = init_order_page;
 exports.init_map_vars = init_map_vars;
-exports.base64 = base64;
-exports.sha1 = sha1;
-}).call(this,require("buffer").Buffer)
-},{"../FRONT_API":1,"./PizzaCart":6,"buffer":58,"crypto":67}],9:[function(require,module,exports){
+exports.init_lp = init_LiqPay;
+},{"../FRONT_API":1,"./PizzaCart":6,"crypto":67}],9:[function(require,module,exports){
 var asn1 = exports;
 
 asn1.bignum = require('bn.js');

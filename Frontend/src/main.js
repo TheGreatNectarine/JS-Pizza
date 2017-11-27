@@ -11,7 +11,7 @@ $(function () {
 
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();
-    if (window.location.href.contains('order_description')) {
+    if (window.location.href.contains('order')) {
         PizzaOrderPage.init_map_vars();
         PizzaOrderPage.initialize_maps();
         PizzaOrderPage.init_order_page();

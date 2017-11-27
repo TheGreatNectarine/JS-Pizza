@@ -46,7 +46,7 @@ function addToCart(pizza, size) {
             size: size,
             quantity: 1,
             price: pizza[size].price,
-            editable: !window.location.href.contains("order_description")
+            editable: !window.location.href.contains("order")
         });
     } else {
         cart.forEach(function (item) {
@@ -86,22 +86,22 @@ function updateCart() {
     //Функція викликається при зміні вмісту кошика
     //Тут можна наприклад показати оновлений кошик на екрані та зберегти вміт кошика в Local Storage
     order_count = cart.length;
-    $(".order_description-count").html(order_count);
+    $(".order-count").html(order_count);
     //TODO
     if (cart.length === 0) {
-        $(".no-order_description-text").append("<div class=\"no-order_description-text\">empty</div>");
+        $(".no-order-text").append("<div class=\"no-order-text\">empty</div>");
     } else {
-        $(".no-order_description-text").remove();
+        $(".no-order-text").remove();
     }
     //Очищаємо старі піци в кошику
     $cart.html("");
     if (cart.length === 0) {
-        $("#place-order_description").prop("disabled", true);
+        $("#place-order").prop("disabled", true);
         $cart.html("<div class=\"attraction\">\n" +
-            "           what a time<br>to order_description some pizza" +
+            "           what a time<br>to order some pizza" +
             "      </div>");
     } else {
-        $("#place-order_description").prop("disabled", false);
+        $("#place-order").prop("disabled", false);
     }
 
     //Онволення однієї піци
@@ -141,7 +141,7 @@ function updateCart() {
             removeFromCart(cart_item);
         });
 
-        $(".clear-order_description").click(function () {
+        $(".clear-order").click(function () {
             cart = [];
             updateCart();
         });
@@ -171,28 +171,31 @@ function update_total_price(cart) {
     $(".total-price-title").html(total_price(cart) === 0 ? '' : 'total price');
 }
 
-function total_price(cart) {
+function total_price() {
     var res = 0;
-    for (var i = 0; i < cart.length; i++) {
-        res += cart[i].pizza[cart[i].size].price * cart[i].quantity;
-    }
+    cart.forEach(function (t) {
+        res += t.price
+    });
     return res;
 }
 
-// function createOrder(callback) {
-//     API.createOrder({
-//         name: $('#input_name').val(),
-//         phone: $('#input_phone').val(),
-//         address: $('#input_address').val(),
-//         order: cart
-//     }, function (err, result) {
-//         if (err) {
-//             return callback(err)
-//         } else {
-//             callback(null, result);
-//         }
-//     });
-// }
+function createOrder(callback) {
+    API.createOrder({
+        name: $('#input_name').val(),
+        phone: $('#input_phone').val(),
+        address: $('#input_address').val(),
+        order: cart
+    }, function (err, result) {
+        if (err) {
+            return callback(err)
+        } else {
+            callback(null, result);
+        }
+    });
+}
+
+
+exports.cart_total = total_price;
 
 exports.removeFromCart = removeFromCart;
 exports.addToCart = addToCart;
